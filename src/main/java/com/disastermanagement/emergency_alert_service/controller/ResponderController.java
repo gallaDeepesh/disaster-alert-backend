@@ -26,6 +26,10 @@ public class ResponderController {
     public ResponderController(ResponderService responderService) {
         this.responderService = responderService;
     }
+    @GetMapping("/test")
+    public String responderTest() {
+        return "Citizen access granted!";
+    }
 
     // View assigned tasks
     @GetMapping("/{responderId}/tasks")
