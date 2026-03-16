@@ -2,6 +2,7 @@ package com.disastermanagement.emergency_alert_service.controller;
 
 import com.disastermanagement.emergency_alert_service.dto.AlertRequestDTO;
 import com.disastermanagement.emergency_alert_service.dto.AssignTaskRequest;
+import com.disastermanagement.emergency_alert_service.dto.DashboardStats;
 import com.disastermanagement.emergency_alert_service.entity.*;
 import com.disastermanagement.emergency_alert_service.repository.AlertRepository;
 import com.disastermanagement.emergency_alert_service.repository.DisasterRepository;
@@ -35,6 +36,23 @@ public class AdminController {
     public String adminTest() {
         return "Admin access granted!";
     }
+    @GetMapping("/dashboard")
+    public ResponseEntity<?> getDashboardStats(){
+
+        long disasters = disasterRepository.count();
+        long alerts = alertRepository.count();
+        long tasks = rescueTaskRepository.count();
+        long responders = userRepository.findByRole(Role.RESPONDER).size();
+
+        return ResponseEntity.ok(
+                new DashboardStats(
+                        disasters,
+                        alerts,
+                        tasks,
+                        responders
+                )
+        );
+    }
 
     @GetMapping("/disasters")
     public List<Disaster> getAllDisasters() {
@@ -66,7 +84,7 @@ public class AdminController {
 
     @GetMapping("/disasters/earthquakes")
     public List<Disaster> getAllEarthQuakes(){
-        return disasterRepository.findAll();
+        return disasterRepository.findByType("EARTHQUAKE");
     }
 
     @GetMapping("/rescue-tasks")
