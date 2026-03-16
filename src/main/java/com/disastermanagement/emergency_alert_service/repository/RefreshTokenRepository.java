@@ -11,5 +11,12 @@ public interface RefreshTokenRepository
 
     Optional<RefreshToken> findByToken(String token);
     void deleteByUser(User user);
+
+    @Override
+    Optional<RefreshToken> findById(Long aLong);
+    Optional<RefreshToken> findByUser(User user);
+
+
+
 }
 
