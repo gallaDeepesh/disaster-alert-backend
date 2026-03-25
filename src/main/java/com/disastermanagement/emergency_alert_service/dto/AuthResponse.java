@@ -3,7 +3,7 @@ package com.disastermanagement.emergency_alert_service.dto;
 import lombok.*;
 
 @Getter
-@AllArgsConstructor
+
 public class AuthResponse {
 
     private String accessToken;

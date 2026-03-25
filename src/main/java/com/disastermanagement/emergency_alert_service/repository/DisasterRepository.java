@@ -7,7 +7,11 @@ import java.util.List;
 import java.util.Optional;
 
 public interface DisasterRepository extends JpaRepository<Disaster, Long> {
+    boolean existsByExternalId(String externalId);
+
     Optional<Disaster> findByExternalId(String externalId);
 
-    List<Disaster> findByType(String earthquake);
+    List<Disaster> findByTypeAndStatus(String type, String status);
+
+    List<Disaster> findBySeverityOrderByTimestampDesc(String severity);
 }

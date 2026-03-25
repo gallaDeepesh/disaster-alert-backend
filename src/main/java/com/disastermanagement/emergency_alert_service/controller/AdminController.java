@@ -82,10 +82,7 @@ public class AdminController {
         return ResponseEntity.ok("Alert created successfully");
     }
 
-    @GetMapping("/disasters/earthquakes")
-    public List<Disaster> getAllEarthQuakes(){
-        return disasterRepository.findByType("EARTHQUAKE");
-    }
+
 
     @GetMapping("/rescue-tasks")
     public List<RescueTask> getAllTasks() {

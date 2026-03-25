@@ -1,6 +1,8 @@
 package com.disastermanagement.emergency_alert_service.controller;
 
+import com.disastermanagement.emergency_alert_service.dto.LocationRequest;
 import com.disastermanagement.emergency_alert_service.entity.Alert;
+import com.disastermanagement.emergency_alert_service.entity.Disaster;
 import com.disastermanagement.emergency_alert_service.entity.RescueRequest;
 import com.disastermanagement.emergency_alert_service.entity.User;
 import com.disastermanagement.emergency_alert_service.repository.AlertRepository;
@@ -32,14 +34,6 @@ public class CitizenController {
     }
 
 
-
-        // View alerts
-        @GetMapping("/{citizenId}/alerts")
-        public List<Alert> getAlerts(@PathVariable Long citizenId) {
-
-            return citizenService.getCitizenAlerts(citizenId);
-        }
-
         // Request rescue
         @PostMapping("/request-help")
         public RescueRequest requestHelp(@RequestBody RescueRequest request) {
@@ -48,11 +42,52 @@ public class CitizenController {
         }
 
         // View rescue requests
-        @GetMapping("/{citizenId}/requests")
-        public List<RescueRequest> getRequests(@PathVariable Long citizenId) {
+        @GetMapping("/alerts")
+        public List<Alert> getAlerts(Authentication authentication) {
 
-            return citizenService.getCitizenRequests(citizenId);
+            User user = userRepository
+                    .findByEmail(authentication.getName())
+                    .orElseThrow();
+
+            return citizenService.getCitizenAlerts(user.getId());
         }
+
+        // request delete
+        @DeleteMapping("/request/{id}")
+        public String cancelRequest(@PathVariable Long id) {
+            citizenService.deleteRequest(id);
+            return "Request cancelled";
+        }
+// view near by disasters
+    @GetMapping("/disasters")
+    public List<Disaster> getNearbyDisasters(Authentication authentication) {
+
+        User user = userRepository
+                .findByEmail(authentication.getName())
+                .orElseThrow();
+
+        return citizenService.getNearbyDisasters(
+                user.getLatitude(),
+                user.getLongitude()
+        );
+    }
+
+    // getting user longitude and latitude
+    @PutMapping("/location")
+    public String updateLocation(
+            @RequestBody LocationRequest request,
+            Authentication authentication) {
+
+        User user = userRepository
+                .findByEmail(authentication.getName())
+                .orElseThrow();
+
+        user.setLatitude(request.getLatitude());
+        user.setLongitude(request.getLongitude());
+
+        userRepository.save(user);
+        return "Location updated successfully";
+    }
 
 }
 

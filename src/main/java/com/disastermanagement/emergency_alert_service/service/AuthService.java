@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 
 @Service
-@RequiredArgsConstructor
 public class AuthService {
 
     private final UserRepository userRepo;
@@ -48,7 +47,7 @@ public class AuthService {
         String accessToken = jwtService.generateAccessToken(user);
         String refreshToken = jwtService.generateRefreshToken(user);
 
-        RefreshToken token = new RefreshToken();
+        RefreshToken token = refreshTokenRepo.findByUser(user).orElse(new RefreshToken()); // If not found, create new instance
         token.setUser(user);
         token.setToken(refreshToken);
         token.setExpiryDate(LocalDateTime.now().plusDays(7));

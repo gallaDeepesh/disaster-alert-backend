@@ -1,8 +1,8 @@
 package com.disastermanagement.emergency_alert_service.controller;
 
 import com.disastermanagement.emergency_alert_service.entity.Disaster;
+import com.disastermanagement.emergency_alert_service.event.DisasterCreatedEvent;
 import com.disastermanagement.emergency_alert_service.repository.DisasterRepository;
-import com.project.disaster.events.DisasterDetectedEvent;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.web.bind.annotation.*;
 
@@ -40,9 +40,7 @@ public class TestController {
 
         Disaster savedDisaster = disasterRepository.save(disaster);
 
-        eventPublisher.publishEvent(
-                new DisasterDetectedEvent(savedDisaster)
-        );;
+      //
 
         return "Test disaster triggered!";
     }
