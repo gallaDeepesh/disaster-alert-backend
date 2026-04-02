@@ -18,6 +18,7 @@ public class Alert {
     private Disaster disaster;
     private String message;
     private LocalDateTime broadcastTime;
+    private String status;
 
     public Long getId() {
         return id;
@@ -57,5 +58,13 @@ public class Alert {
 
     public void setUserId(Long userId) {
         this.userId = userId;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

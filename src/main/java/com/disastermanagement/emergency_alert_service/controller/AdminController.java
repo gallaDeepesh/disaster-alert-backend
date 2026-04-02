@@ -4,10 +4,7 @@ import com.disastermanagement.emergency_alert_service.dto.AlertRequestDTO;
 import com.disastermanagement.emergency_alert_service.dto.AssignTaskRequest;
 import com.disastermanagement.emergency_alert_service.dto.DashboardStats;
 import com.disastermanagement.emergency_alert_service.entity.*;
-import com.disastermanagement.emergency_alert_service.repository.AlertRepository;
-import com.disastermanagement.emergency_alert_service.repository.DisasterRepository;
-import com.disastermanagement.emergency_alert_service.repository.RescueTaskRepository;
-import com.disastermanagement.emergency_alert_service.repository.UserRepository;
+import com.disastermanagement.emergency_alert_service.repository.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -24,12 +21,14 @@ public class AdminController {
     private final AlertRepository alertRepository;
     private final DisasterRepository disasterRepository;
     private final UserRepository userRepository;
+    private final RescueRequestRepository rescueRequestRepository;
 
-    public AdminController(RescueTaskRepository rescueTaskRepository, AlertRepository alertRepository, DisasterRepository disasterRepository, UserRepository userRepository) {
+    public AdminController(RescueTaskRepository rescueTaskRepository, AlertRepository alertRepository, DisasterRepository disasterRepository, UserRepository userRepository, RescueRequestRepository rescueRequestRepository) {
         this.rescueTaskRepository = rescueTaskRepository;
         this.alertRepository = alertRepository;
         this.disasterRepository = disasterRepository;
         this.userRepository = userRepository;
+        this.rescueRequestRepository = rescueRequestRepository;
     }
 
     @GetMapping("/test")
@@ -87,6 +86,11 @@ public class AdminController {
     @GetMapping("/rescue-tasks")
     public List<RescueTask> getAllTasks() {
         return rescueTaskRepository.findAll();
+    }
+
+    @GetMapping("/rescue-request")
+    public List<RescueRequest> getAllRequeest() {
+        return rescueRequestRepository.findAll();
     }
 
     @GetMapping("/responders")

@@ -8,4 +8,6 @@ import java.util.List;
 public interface AlertRepository extends JpaRepository<Alert, Long> {
     boolean existsByDisasterIdAndUserId(Long disasterId, Long userId);
     List<Alert> findByUserId(Long userId);
+
+    List<Alert> findByStatus(String active);
 }

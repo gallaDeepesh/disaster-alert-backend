@@ -50,7 +50,7 @@ public class DisasterAlertListener {
                 alert.setMessage("⚠ Earthquake detected near your location: "
                         + disaster.getLocation());
                 alert.setBroadcastTime(LocalDateTime.now());
-
+                alert.setStatus("ACTIVE");
                 if(!alertRepository.existsByDisasterIdAndUserId(
                         disaster.getId(),
                         user.getId()

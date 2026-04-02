@@ -36,9 +36,12 @@ public class CitizenController {
 
         // Request rescue
         @PostMapping("/request-help")
-        public RescueRequest requestHelp(@RequestBody RescueRequest request) {
+        public RescueRequest requestHelp(@RequestBody RescueRequest request,Authentication authentication) {
+            User user = userRepository
+                    .findByEmail(authentication.getName())
+                    .orElseThrow();
 
-            return citizenService.createRescueRequest(request);
+            return citizenService.createRescueRequest(request,user.getId());
         }
 
         // View rescue requests

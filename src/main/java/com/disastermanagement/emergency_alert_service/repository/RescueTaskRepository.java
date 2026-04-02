@@ -8,4 +8,7 @@ import java.util.List;
 
 public interface RescueTaskRepository extends JpaRepository<RescueTask, Long> {
     List<RescueTask> findByResponderId(Long responder);
+
+    List<RescueTask> findByResponder(User responder);
+    List<RescueTask> findByResponderAndStatus(User responder,String status);
 }

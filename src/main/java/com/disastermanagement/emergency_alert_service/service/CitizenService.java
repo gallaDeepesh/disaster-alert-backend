@@ -3,10 +3,12 @@ package com.disastermanagement.emergency_alert_service.service;
 import com.disastermanagement.emergency_alert_service.entity.Alert;
 import com.disastermanagement.emergency_alert_service.entity.Disaster;
 import com.disastermanagement.emergency_alert_service.entity.RescueRequest;
+import com.disastermanagement.emergency_alert_service.entity.User;
 import com.disastermanagement.emergency_alert_service.repository.AlertRepository;
 import com.disastermanagement.emergency_alert_service.repository.DisasterRepository;
 import com.disastermanagement.emergency_alert_service.repository.RescueRequestRepository;
 import com.disastermanagement.emergency_alert_service.utility.GeoUtils;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -30,8 +32,8 @@ public class CitizenService {
         return alertRepository.findByUserId(citizenId);
     }
 
-    public RescueRequest createRescueRequest(RescueRequest request) {
-
+    public RescueRequest createRescueRequest(RescueRequest request, Long citizenId) {
+        request.setCitizenId(citizenId);
         request.setStatus("PENDING");
         request.setCreatedAt(LocalDateTime.now());
 
